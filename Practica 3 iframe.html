@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TOP 4 de la Historia</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1 align="center">Los 4 Mejores Jugadores de la historia</h1>
+    
+    <!-- Tabla con imágenes de futbolistas -->
+    <table align="center" width="75%" border="0">
+        <tr>
+            <td align="center">
+                <img src="https://www.lanacion.com.ar/resizer/v2/lionel-messi-tendra-otro-ano-de-desafios-en-la-Y7I3IDR6YFEA3KK6TNRDGWGYSU.JPG?auth=72f8775839c33fe5378db8b83360b2b7df32f1e5b5ad5e8eddcf62c61253c334&width=420&height=280&quality=70&smart=true" 
+                     width="200" 
+                     onclick="mostrarEnIframe(this.src)"
+                     style="cursor: pointer">
+            </td>
+            <td align="center">
+                <img src="https://cdn.clarosports.com/clarosports/2023/10/2023-10-02t174318z-821888060-up1eja21d84qh-rtrmadp-3-soccer-afcchampions-ana-ist-1-115013-1024x576.jpg" 
+                     width="200" 
+                     onclick="mostrarEnIframe(this.src)"
+                     style="cursor: pointer">
+            </td>
+            <td align="center">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpocNAvEcrxto_JzvYB130_2zipwShAlQMfw&s" 
+                     width="200" 
+                     onclick="mostrarEnIframe(this.src)"
+                     style="cursor: pointer">
+            </td>
+            <td align="center">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh3_ooQK7fY-CJ2cIzKnrtNX2q5ms5n8iA9A&s" 
+                     width="200" 
+                     onclick="mostrarEnIframe(this.src)"
+                     style="cursor: pointer">
+            </td>
+        </tr>
+    </table>
+
+    <!-- Iframe para mostrar las imágenes -->
+    <div align="center" style="margin-top: 20px">
+        <iframe id="visor" 
+                width="800" 
+                height="450" 
+                frameborder="0"
+                src="about:blank">
+        </iframe>
+    </div>
+
+    <script>
+        function mostrarEnIframe(urlImagen) {
+            document.getElementById('visor').src = urlImagen;
+        }
+    </script>
+</body>
+</html>
