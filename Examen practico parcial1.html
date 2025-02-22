@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Security-Policy" content="frame-src https://www.bmwgroup-werke.com/san-luis-potosi/es.html">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen Practico</title>
+    <style>
+        
+        .titulo-principal { color: blue; margin: 5px 0; }
+        
+        table {
+            width: 90%; 
+            margin: auto;
+            text-align: center;
+            color: white;
+            border-collapse: collapse;
+        }
+        
+        .contenedor-principal {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .imagen-enlace {
+            cursor: pointer;
+            transition: transform 0.3s;
+            width: 300px; /* Tamaño aumentado */
+        }
+        
+        .imagen-enlace:hover { transform: scale(1.05); }
+        
+        .imagenes-adicionales {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .imagenes-adicionales img {
+            width: 250px; /* Tamaño aumentado */
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        iframe {
+            width: 600px;
+            height: 400px;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body style="margin: 20px; max-width: 800px; margin-left: auto; margin-right: auto;">
+    <header style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px;">
+        <h1 class="titulo-principal">Programacion Web 1 PRIM25</h1>
+        <h2 style="margin: 5px 0;">Evaluacion Practica Parcial 1</h2>
+        <h3 class="titulo-principal">Profesora: MC Imelda Deyanira Hernandez Martinez</h3>
+        <h3>Alumno: Juan Manuel de Jesus Padron Melendez</h3>
+    </header>
+    <h2 style="text-align: center; padding-bottom: 10px; margin: 5px 0; color: blue;">
+        BMW Empresa Automotriz
+    </h2>
+
+    <div class="contenedor-principal">
+        <table>
+            <tr>
+                <td>
+                    <a href="https://www.bmwgroup-werke.com/san-luis-potosi/es.html" 
+                       target="_blank" 
+                       onclick="cargarIframe(event, 'https://www.bmwgroup-werke.com/san-luis-potosi/es.html')">
+                        <img src="logobmw.jfif" 
+                             alt="Logo BMW" 
+                             class="imagen-enlace">
+                    </a>
+                </td>
+                <td>
+                    <iframe name="iframeBMW" 
+                            srcdoc="<h3 style='text-align:center'>Selecciona el logo para cargar contenido</h3>"></iframe>
+                </td>
+            </tr>
+            <tfoot>
+                <tr>
+                    <td colspan="2" style="color: white; padding: 20px; font-weight: bold; background: blue;">
+                        Universidad Politecnica de San Luis Potosi
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="imagenes-adicionales">
+        <img src="auto1.jfif" alt="Modelo 1">
+        <img src="auto2.jfif" alt="Modelo 2">
+        <img src="auto3.jfif" alt="Modelo 3">
+    </div>
+
+    <script>
+        function mostrarEnIframe(url) {
+            const iframe = document.getElementsByName('iframeBMW')[0];
+            try {
+                iframe.src = url;
+            } catch (error) {
+                iframe.srcdoc = `<h3 style="color: red; text-align:center">Error al cargar el sitio: ${error.message}</h3>`;
+            }
+        }
+    </script>
+</body>
+</html>
