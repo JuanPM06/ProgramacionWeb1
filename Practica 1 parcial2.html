@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practica 1</title>
+</head>
+<body style="margin: 20px; max-width: 800px; margin-left: auto; margin-right: auto; background: skyblue;">
+
+    <header style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px;">
+    <h1>Volkswagen Potosina</h1>
+    <h2>Compras online</h2>
+    <tfoot>Febrero 2025, SLP.</tfoot>
+
+</header>
+    <form action="" method="post" enctype="text/plain">
+        <!-- Agrupar controles de Formulario -->
+        <fieldset>
+            <legend>Informacion General del cliente</legend>
+            <label for="username">
+            Nombre:
+            </label>
+            <input type="text" name="username" 
+            id="username " placeholder="Nombre"
+             size="15" maxlength="30" title="Nombre" required />
+             <label for="pass">Apellido paterno:</label>
+             <input type="text" name="username" id="username" 
+             placeholder="Apellido paterno" 
+             size="15" maxlength="30" 
+             title="Apellido paterno" />
+
+            <label for="pass">Apellido materno:</label>
+             <input type="text" name="username" id="username" 
+             placeholder="Apellido materno" 
+             size="15" maxlength="30" 
+             title="Apellido materno" /><br/><br/>
+
+            <label for="username">
+            Nombre de usuario:
+            </label>
+            <input type="text" name="username" 
+            id="username " placeholder="Nombre"
+             size="15" maxlength="30" title="Username" required />
+            <label for="pass">Password:</label>
+             <input type="password" name="pass" id="pass" 
+             placeholder="Password" 
+             size="15" maxlength="30" 
+             title="password" />
+            <label for="fechahora">Fecha de resgistro:</label>
+             <input type="datetime-local" name="fechahora" id="fechahora"><br/><br/>
+</fieldset>
+<fieldset>
+    <legend>Datos para facturar</legend>
+  <label>País: <input type="text" name="pais" value="México" type="text" name="username" id="username" 
+             placeholder="Pais" 
+             size="15" maxlength="30" 
+             title="Pais" ></label>
+  <label>Ciudad: <input type="text" name="ciudad" type="text" name="username" id="username" 
+             placeholder="Ciudad" 
+             size="15" maxlength="30" 
+             title="Ciudad" ></label>
+ <label>Calle: <input type="text" name="calle" type="text" name="username" id="username" 
+             placeholder="Calle" 
+             size="15" maxlength="30" 
+             title="Calle" ></label><br/><br/>
+ <label>Numero de casa: <input type="number" name="num_casa" min="0"></label>
+ <label>Colonia: <input type="text" name="colonia" type="text" name="username" id="username" 
+             placeholder="Colonia" 
+             size="15" maxlength="30" 
+             title="Colonia" ></label>
+ <label>Email: * <input type="email" name="email" required type="text" name="username" id="username" 
+             placeholder="E-mail" 
+             size="15" maxlength="30" 
+             title="E-mail" ></label><br/><br/>
+ <label>RFC: * <input type="text" name="rfc" required type="text" name="username" id="username" 
+             placeholder="RFC" 
+             size="15" maxlength="30" 
+             title="RFC"></label>
+ <label>C.P: <input type="number" name="num_casa" min="0"></label> 
+  <label>
+<input type="checkbox" name="terminos" required>Acepto los Terminos y condiciones</label>
+                </div>
+            </div>
+        </fieldset>
+
+        <div style="margin: 20px 0; text-align: center;">
+            <button type="submit" style="padding: 10px 25px; background-color: #004a8d; color: white; border: none;">
+                Enviar Registro
+            </button>
+            <p style="font-size: 0.8em; margin-top: 10px;">* Campos obligatorios</p>
+        </div>           
+</fieldset>
+     </form>
+
+</body>
+</html>
