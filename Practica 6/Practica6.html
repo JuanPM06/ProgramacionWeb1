@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Jersey Club</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .navbar-logo {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+    .navbar-menu a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+    }
+    header {
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      color: black;
+      text-align: center;
+      padding: 100px 20px;
+    }
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('imagen1.jpg') center/cover no-repeat;
+      opacity: 70%;
+      z-index: 0;
+    }
+    header h1, 
+    header p, 
+    .cta-buttons {
+      position: relative;
+      z-index: 1;
+    }
+    .cta-buttons {
+      margin-top: 20px;
+    }
+    .cta-buttons a {
+      background-color: #ff6600;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      margin: 0 10px;
+    }
+    .footer-text {
+      text-align: center;
+      padding: 20px;
+      font-size: 1.2em;
+    }
+    .services {
+      text-align: center;
+      padding: 50px 20px;
+      background-color: white;
+    }
+    .services h2 {
+      margin-bottom: 10px;
+    }
+    .service-container {
+      display: flex;
+      justify-content: space-around;
+      padding-top: 20px;
+    }
+    .service {
+      text-align: center;
+      width: 45%;
+    }
+    .service img {
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+    }
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="navbar-logo">⚽</div>
+    <div class="navbar-menu">
+      <a href="#">Productos</a>
+      <a href="#">Contacto</a>
+      <a href="#">Ingresar</a>
+      <a href="#">Registrarse</a>
+    </div>
+  </div>
+
+  <header>
+    <h1>The Jersey Club</h1>
+    <p>Playeras de futbol para tu pecho frío</p>
+    <div class="cta-buttons">
+      <a href="#">Comprar</a>
+      <a href="#">Buscar tu sucursal</a>
+    </div>
+  </header>
+
+  <div class="services">
+    <h2>Nuestros servicios</h2>
+    <p>¿Qué ofrecemos?</p>
+    <div class="service-container">
+      <div class="service">
+        <img src="imagen2.jpg" alt="Venta de Jerseys deportivas">
+        <h2>Venta de Jerseys deportivas</h2>
+        <p>Ofrecemos Jerseys deportivas de tus equipos favoritos, originales y a un costo accesible para tus bolsillos.</p>
+      </div>
+      <div class="service">
+        <img src="imagen3.jpg" alt="Venta en línea y en local">
+        <h2>Ofrecemos venta en línea y en local</h2>
+        <p>Gracias al mundo tecnológico podemos ofrecer la venta de nuestras jerseys a la puerta de tu casa, claro que también contamos con un local para que la compres en persona, tu gusto, tu decisión.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2023 The Jersey Club</p>
+  </footer>
+</body>
+</html>
