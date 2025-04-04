@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="estilos9.css">
+    <title>Unidades de Medida - Absolutas y relativas</title>
+</head>
+<body>
+    <div class="contenedor">
+        <h1>UNIDADES DE MEDIDA EN DISEÑO WEB</h1>
+
+        <div class="seccion">
+            <h2>Unidades Absolutas</h2>
+            <p><strong>Definición:</strong> Valores fijos que no dependen de otros elementos</p>
+            
+            <h3>Ejemplos comunes:</h3>
+            <ul>
+                <li><strong>px</strong> (píxeles): Unidad básica en pantallas (ej: 16px)</li>
+                <li><strong>cm</strong> (centímetros): Usado en medios impresos (ej: 5cm)</li>
+                <li><strong>mm</strong> (milímetros): Precisión técnica (ej: 10mm)</li>
+                <li><strong>in</strong> (pulgadas): 1in = 2.54cm (ej: 3in)</li>
+                <li><strong>pt</strong> (puntos): Común en tipografía impresa (1pt ≈ 0.35mm)</li>
+                <li><strong>pc</strong> (picas): 1pc = 12pt (usado en diseño editorial)</li>
+            </ul>
+
+            <div class="nota">
+                <h3>¿Cuándo usarlas?</h3>
+                <p>Ideal para formatos impresos y elementos que requieren medidas exactas. El único valor usado frecuentemente en pantalla es px (píxeles). La mayoría de estos valores son más útiles cuando se usan en una salida en formato impreso que en la salida de pantalla. Por ejemplo, normalmente no usamos cm (centímetros) en pantalla. El único valor que usarás de forma frecuente es px (píxeles)</p>
+            </div>
+            <div class="nota">
+                <h4>¿Como se Utilizan?</h4>
+                <p>Las unidades absolutas hacen referencia a una medida física inalterable. Por ejemplo los centímetros y/o las pulgadas. Las unidades relativas dependen de otra medida. Por ejemplo pueden depender del ancho disponible en una pantalla de ordenador</p>
+            </div>
+        </div>
+
+        <div class="seccion">
+            <h2>Unidades Relativas</h2>
+            <p><strong>Definición:</strong> Valores que dependen de otro elemento de referencia</p>
+            
+            <h3>Ejemplos comunes:</h3>
+            <ul>
+                <li><strong>%</strong>: Porcentaje del contenedor (ej: width: 50%)</li>
+                <li><strong>em</strong>: Basado en el tamaño de fuente del elemento padre (ej: 1.5em)</li>
+                <li><strong>rem</strong>: Relativo al tamaño de fuente de la raíz (html)</li>
+                <li><strong>vw/vh</strong>: 1% del ancho (viewport width) o alto (viewport height) de la pantalla</li>
+                <li><strong>vmin/vmax</strong>: Mínimo o máximo entre vw y vh</li>
+            </ul>
+
+            <div class="nota">
+                <h3>¿Cuándo usarlas?</h3>
+                <ul>
+                    <li>Desarrollo web responsive</li>
+                    <li>En el desarrollo de páginas web para que el texto y otros elementos escalen en relación con el tamaño de la ventana</li> 
+                    En el desarrollo de productos digitales para que se adapten a diferentes dispositivos 
+                   <li>En el ámbito sanitario para aproximar el consumo de recursos en un procedimiento 
+                   </li>
+                </ul>
+            <div class="nota">
+            <h5>¿Como se Utilizan?</h5>
+            <p>En el desarrollo de páginas web para que el texto y otros elementos escalen en relación con el tamaño de la ventana.</br> 
+             En el desarrollo de productos digitales para que se adapten a diferentes dispositivos</br>
+En el ámbito sanitario para aproximar el consumo de recursos en un procedimiento </p>
+            </div>
+
+            </div>
+
+            <h3>Ejemplo de código:</h3>
+            <div class="ejemplo-codigo">
+                .letra1 { font-size: 1.5em; }<br>
+                .letra2 { font-size: 1em; }<br>
+                .letra3 { font-size: 0.7em; }
+            </div>
+        </div>
+
+        <div class="seccion">
+            <h2>Comparativa</h2>
+            <table>
+                <tr>
+                    <th>Característica</th>
+                    <th>Absolutas</th>
+                    <th>Relativas</th>
+                </tr>
+                <tr>
+                    <td>Flexibilidad</td>
+                    <td>Fija</td>
+                    <td>Adaptable</td>
+                </tr>
+                <tr>
+                    <td>Uso principal</td>
+                    <td>Medios impresos</td>
+                    <td>Entornos digitales</td>
+                </tr>
+                <tr>
+                    <td>Dependencia</td>
+                    <td>Ninguna</td>
+                    <td>Elemento de referencia</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
