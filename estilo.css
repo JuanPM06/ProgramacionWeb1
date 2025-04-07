@@ -44,24 +44,76 @@ body {
     font-size: 1.2rem;
 }
 /* Ajuste de tamaño de imágenes */
-.product-gallery {
+#galeria {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #fff8f0;
+}
+
+.galeria-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.galeria-img-box {
+    max-width: 500px;
+    width: 100%;
+    position: relative;
+}
+
+#galeria-img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+#galeria-caption {
+    margin-top: 10px;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.galeria-btn {
+    background-color: #f37c22;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.galeria-btn:hover {
+    background-color: #d9651a;
+}
+
+.indicadores {
     display: flex;
     justify-content: center;
-    gap: 20px;
-    text-align: center;
+    margin-top: 10px;
+    gap: 8px;
 }
-.product {
-    max-width: 300px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: #fff;
+
+.indicadores .bolita {
+    width: 12px;
+    height: 12px;
+    background-color: #ccc;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    transition: background 0.3s;
 }
-.product img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
+
+.indicadores .bolita.activa {
+    background-color: #f37c22;
 }
+
 /* Estilos del footer */
 footer {
     background-color: yellow;
@@ -69,4 +121,18 @@ footer {
     text-align: center;
     padding: 20px;
     margin-top: 40px;
+}
+
+#map {
+    height: 250px;
+    width: 50%;
+    justify-content: center;
+    margin: 20px auto;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.video {
+    justify-content: center;
+    margin: 20px auto;
 }

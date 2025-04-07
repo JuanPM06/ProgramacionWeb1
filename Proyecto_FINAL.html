@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botanas Provi</title>
+    <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo.jpg" alt="Botanas Provi">
+        </div>
+        <ul class="nav-links">
+            <li><a href="#about">Nosotros</a></li>
+            <li><a href="#products">Productos</a></li>
+            <li><a href="#contact">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <!-- Banner -->
+    <section class="banner">
+        <h2>¡Disfruta lo que te hace feliz!</h2>
+        <p>Conoce nuestra gran variedad de botanas</p>
+    </section>
+
+    <section id="video">
+        <h2>Conócenos en acción</h2>
+        <video controls width="100%" height="auto">
+            <source src="videopromocional.mp4" type="video/mp4">
+            Tu navegador no soporta el video.
+        </video>
+    </section>
+
+    <section id="about">
+        <h2>Nosotros</h2>
+        <p>En Botanas Provi, llevamos mas de 50 años compartiendo el auténtico sabor de las botanas tradicionales. Nacimos con la misión de ofrecer snacks de calidad, con ingredientes seleccionados y un toque casero que nos distingue. </p>
+
+        <p>Nuestro compromiso es brindarte el mejor sabor, frescura y variedad, desde los clásicos papas fritas y cacahuates hasta opciones innovadoras que te sorprenderán. Nos esforzamos por mantener viva la tradición, con recetas que han pasado de generación en generación, pero siempre con un enfoque moderno para satisfacer todos los gustos. </p>
+
+        <p>Más que una botana, somos el acompañante perfecto para tus momentos especiales. ¡Disfruta con Botanas Provi y descubre por qué el sabor nos hace únicos!</p>
+    </section>
+
+    <section id="galeria">
+        <h2>Conoce nuestros productos</h2>
+        <div class="galeria-container">
+            <button class="galeria-btn" id="prevBtn">&#10094;</button>
+            <div class="galeria-img-box">
+                <img id="galeria-img" src="producto1.jpg" alt="Producto">
+                <p id="galeria-caption">Papas fritas Provi con sal 90 g</p>
+                <div id="indicadores" class="indicadores"></div>
+            </div>
+            <button class="galeria-btn" id="nextBtn">&#10095;</button>
+        </div>
+    </section>
+
+    <h2>Nuestras Sucursales</h2>
+    <div id="map"></div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script>
+        // Inicializar el mapa centrado en San Luis Potosí
+        const map = L.map('map').setView([22.17, -100.99], 12);
+
+        // Cargar tiles (mapa base) desde OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Lista de sucursales
+        const sucursales = [
+        {
+            nombre: "Botanas Provi (Sucursal 1)",
+            lat: 22.2131687,
+            lng: -101.0449406
+        },
+        {
+            nombre: "Distribuidora Botanas Provi (Sucursal 2)",
+            lat: 22.1559955,
+            lng: -100.9749457
+        },
+        {
+            nombre: "Provi Botanas (Sucursal 3)",
+            lat: 22.1501108,
+            lng: -100.9916967
+        },
+        {
+            nombre: "Distribuidora Botanas Provi (Sucursal 4)",
+            lat: 22.123781,
+            lng: -100.9659669
+        }
+        ];
+
+        // Agregar marcadores al mapa
+        sucursales.forEach(suc => {
+        L.marker([suc.lat, suc.lng])
+            .addTo(map)
+            .bindPopup(`<strong>${suc.nombre}</strong>`);
+        });
+
+        const imagenes = [
+        { src: "producto1.jpg", caption: "Papas fritas Provi con sal 90 g" },
+        { src: "producto2.jpg", caption: "Papas fritas Botanas Provi Adobada 90 g" },
+        { src: "producto3.jpg", caption: "Churros verdes 120 g" },
+        { src: "producto4.jpg", caption: "Rines 80 g" },
+        { src: "producto5.jpg", caption: "Totopos 90 g" },
+        { src: "producto6.jpg", caption: "Cacahuates Salados 60 g" },
+        { src: "producto7.jpg", caption: "Cacahuates enchilados 55 g" },
+        { src: "producto8.jpg", caption: "Chicharrones de cerdo 120 g" }
+    ];
+
+    let indice = 0;
+    const galeriaImg = document.getElementById("galeria-img");
+    const galeriaCaption = document.getElementById("galeria-caption");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const indicadores = document.getElementById("indicadores");
+
+    // Crear bolitas (indicadores)
+    imagenes.forEach((_, i) => {
+        const dot = document.createElement("span");
+        dot.classList.add("bolita");
+        dot.addEventListener("click", () => {
+            indice = i;
+            mostrarImagen(indice);
+            reiniciarIntervalo();
+        });
+        indicadores.appendChild(dot);
+    });
+
+    const bolitas = document.querySelectorAll(".bolita");
+
+    function mostrarImagen(i) {
+        galeriaImg.src = imagenes[i].src;
+        galeriaCaption.textContent = imagenes[i].caption;
+        bolitas.forEach(b => b.classList.remove("activa"));
+        bolitas[i].classList.add("activa");
+    }
+
+    prevBtn.addEventListener("click", () => {
+        indice = (indice - 1 + imagenes.length) % imagenes.length;
+        mostrarImagen(indice);
+        reiniciarIntervalo();
+    });
+
+    nextBtn.addEventListener("click", () => {
+        indice = (indice + 1) % imagenes.length;
+        mostrarImagen(indice);
+        reiniciarIntervalo();
+    });
+
+    function reiniciarIntervalo() {
+        clearInterval(autoCambio);
+        autoCambio = setInterval(() => {
+            indice = (indice + 1) % imagenes.length;
+            mostrarImagen(indice);
+        }, 5000);
+    }
+
+    // Cambiar automáticamente cada 5 segundos
+    let autoCambio = setInterval(() => {
+        indice = (indice + 1) % imagenes.length;
+        mostrarImagen(indice);
+    }, 5000);
+
+    // Mostrar la primera
+    mostrarImagen(indice);
+    </script>
+
+    <section id="contact">
+        <h2>Contacto</h2>
+        <form>
+            <label for="name">Nombre:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="email">Correo Electrónico:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="message">Mensaje:</label>
+            <textarea id="message" name="message" required></textarea>
+            
+            <button type="submit">Enviar</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Botanas Provi - Todos los derechos reservados</p>
+        <p>Página web desarollada para la materia de Programacion Web 1</p>
+        <p>Primavera 2025. Universidad Politécnica de San Luis Potosi</p>
+    </footer>
+</body>
+</html>
