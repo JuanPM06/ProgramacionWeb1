@@ -1,0 +1,82 @@
+
+    body {
+        font-family: 'Arial', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background: linear-gradient(45deg, #1a1a1a, #4a4a4a);
+        color: white;
+    }
+
+    .container {
+        background-color: rgba(0, 0, 0, 0.8);
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        width: 320px;
+        backdrop-filter: blur(10px);
+    }
+
+    .display {
+        background-color: #333;
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin-bottom: 1.5rem;
+        text-align: right;
+        font-size: 2em;
+        letter-spacing: 2px;
+        overflow: hidden;
+    }
+
+    .buttons-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.8rem;
+    }
+
+    .btn {
+        padding: 1.2rem;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.2em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background-color: #4d4d4d;
+        color: white;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-operator {
+        background-color: #ff9500;
+    }
+
+    .btn-equals {
+        background-color: #007AFF;
+    }
+
+    .btn-clear {
+        background-color: #ff3b30;
+        grid-column: span 2;
+    }
+
+    .btn-number:hover {
+        background-color: #666;
+    }
+
+    .btn-operator:hover {
+        background-color: #ffaa33;
+    }
+
+    .btn-equals:hover {
+        background-color: #0066cc;
+    }
+
+    .btn-clear:hover {
+        background-color: #ff4444;
+    }
