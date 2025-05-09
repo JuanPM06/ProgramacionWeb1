@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Diagnóstico de Fútbol</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        
+        .form-container {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 5px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        #chartContainer {
+            margin-top: 20px;
+        }
+        
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Test basico de Conocimientos de Fútbol</h1>
+        <form id="quizForm">
+            <div class="question">
+                <p>1. ¿Cuánto dura un partido de fútbol profesional?</p>
+                <label><input type="radio" name="q1" value="0"> 60 minutos</label>
+                <label><input type="radio" name="q1" value="20"> 90 minutos</label>
+                <label><input type="radio" name="q1" value="0"> 120 minutos</label>
+                <label><input type="radio" name="q1" value="0"> 90+5 minutos</label>
+            </div>
+            
+            <div class="question">
+                <p>2. ¿Qué significa la sigla FIFA?</p>
+                <label><input type="radio" name="q2" value="0"> Federación Internacional de Fútbol Asociado</label>
+                <label><input type="radio" name="q2" value="20"> Fédération Internationale de Football Association</label>
+                <label><input type="radio" name="q2" value="0"> Federación Ibérica de Fútbol Americano</label>
+                <label><input type="radio" name="q2" value="0"> Federacion Interna Futbolisticamente 
+                Asociada</label>
+            </div>
+            
+            <div class="question">
+                <p>3. ¿Cuál es el máximo organismo del fútbol mundial?</p>
+                <label><input type="radio" name="q3" value="20"> FIFA</label>
+                <label><input type="radio" name="q3" value="0"> UEFA</label>
+                <label><input type="radio" name="q3" value="0"> CONMEBOL</label>
+                <label><input type="radio" name="q3" value="0"> COPA DEL MUNDO</label>
+            </div>
+            
+            <div class="question">
+                <p>4. ¿En qué año se celebró el primer Mundial de Fútbol?</p>
+                <label><input type="radio" name="q4" value="0"> 1926</label>
+                <label><input type="radio" name="q4" value="20"> 1930</label>
+                <label><input type="radio" name="q4" value="0"> 1942</label>
+                <label><input type="radio" name="q4" value="0"> 1958</label>
+            </div>
+            
+            <div class="question">
+                <p>5. ¿Qué jugador tiene más participaciones de gol (G/A) en mundiales?</p>
+                <label><input type="radio" name="q5" value="20"> Lionel Messi</label>
+                <label><input type="radio" name="q5" value="0"> Cristiano Ronaldo</label>
+                <label><input type="radio" name="q5" value="0"> Johan Cruyff</label>
+                <label><input type="radio" name="q5" value="0"> Neymar JR</label>
+            </div>
+            
+            <button type="button" onclick="evaluateQuiz()">Calcular Resultado</button>
+        </form>
+        
+        <div id="result" class="hidden">
+            <h2>Tu puntuación: <span id="score">0</span>/100</h2>
+            <div id="chartContainer">
+                <canvas id="resultsChart"></canvas>
+            </div>
+            <button onclick="generatePDF()">Descargar PDF</button>
+        </div>
+    </div>
+
+    <script>
+        function evaluateQuiz() {
+            let score = 0;
+            const answers = [];
+            
+            // Calcular puntuacion
+            for(let i = 1; i <= 5; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if(selected) {
+                    const points = parseInt(selected.value);
+                    score += points;
+                    answers.push(points);
+                }
+            }
+            
+            // Mostrar resultados
+            document.getElementById('score').textContent = score;
+            document.getElementById('result').classList.remove('hidden');
+            
+            // Generar grafico
+            generateChart(answers);
+        }
+
+        function generateChart(answers) {
+            const ctx = document.getElementById('resultsChart').getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Pregunta 1', 'Pregunta 2', 'Pregunta 3', 'Pregunta 4', 'Pregunta 5'],
+                    datasets: [{
+                        label: 'Puntos obtenidos',
+                        data: answers,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 20
+                        }
+                    }
+                }
+            });
+        }
+
+        async function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Título
+            doc.setFontSize(20);
+            doc.text("Resultado del Test de Fútbol", 20, 20);
+            
+            // Puntuación
+            doc.setFontSize(16);
+            doc.text(`Puntuación obtenida: ${document.getElementById('score').textContent} puntos`, 20, 40);
+            
+            // Gráfico
+            const canvas = document.getElementById('resultsChart');
+            const chartImage = await getChartImage(canvas);
+            doc.addImage(chartImage, 'PNG', 20, 60, 160, 80);
+            
+            doc.save('resultado-futbol.pdf');
+        }
+
+        function getChartImage(canvas) {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve(canvas.toDataURL('image/png'));
+                }, 100);
+            });
+        }
+    </script>
+</body>
+</html>
