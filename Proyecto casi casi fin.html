@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botanas Provi</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="estilofin.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Estilos originales */
+        .formulario-contratacion {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .btn-enviar {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-enviar:hover {
+            background-color: #45a049;
+        }
+
+        #mensaje-exito {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #dff0d8;
+            border: 1px solid #d6e9c6;
+            color: #3c763d;
+            border-radius: 4px;
+        }
+
+        /* Estilos para el Chatbot */
+        #landbot-root {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 600px;
+            z-index: 1000;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .landbot-chat-container {
+            border-radius: 15px;
+            border: 2px solid #4CAF50;
+        }
+
+        .landbot-header {
+            background: #4CAF50;
+            border-radius: 13px 13px 0 0;
+            padding: 15px;
+            color: white;
+        }
+
+        .landbot-message-bubble {
+            background: #f1f8e9;
+            color: #33691e;
+            border-radius: 15px;
+            margin: 5px;
+        }
+
+        .landbot-input {
+            border-radius: 25px;
+            border: 1px solid #4CAF50;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo.jpg" alt="Botanas Provi">
+        </div>
+        <ul class="nav-links">
+            <li><a href="#about">Nosotros</a></li>
+            <li><a href="#products">Productos</a></li>
+            <li><a href="#contact">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <!-- Banner -->
+    <section class="banner">
+        <h2>¡Disfruta lo que te hace feliz!</h2>
+        <p>Conoce nuestra gran variedad de botanas</p>
+    </section>
+
+    <!-- Video -->
+    <section id="video">
+        <h2>Conócenos en acción</h2>
+        <video controls width="100%" height="auto">
+            <source src="videopromocional.mp4" type="video/mp4">
+            Tu navegador no soporta el video.
+        </video>
+    </section>
+
+    <!-- Sección Nosotros -->
+    <section id="about">
+        <h2>Nosotros</h2>
+        <p>En Botanas Provi, llevamos mas de 50 años compartiendo el auténtico sabor de las botanas tradicionales. Nacimos con la misión de ofrecer snacks de calidad, con ingredientes seleccionados y un toque casero que nos distingue.</p>
+        <p>Nuestro compromiso es brindarte el mejor sabor, frescura y variedad, desde los clásicos papas fritas y cacahuates hasta opciones innovadoras que te sorprenderán. Nos esforzamos por mantener viva la tradición, con recetas que han pasado de generación en generación, pero siempre con un enfoque moderno para satisfacer todos los gustos.</p>
+        <p>Más que una botana, somos el acompañante perfecto para tus momentos especiales. ¡Disfruta con Botanas Provi y descubre por qué el sabor nos hace únicos!</p>
+    </section>
+
+    <!-- Galería de Productos -->
+    <section id="galeria">
+        <h2>Conoce nuestros productos</h2>
+        <div class="galeria-container">
+            <button class="galeria-btn" id="prevBtn">&#10094;</button>
+            <div class="galeria-img-box">
+                <img id="galeria-img" src="producto1.jpg" alt="Producto">
+                <p id="galeria-caption">Papas fritas Provi con sal 90 g</p>
+                <div id="indicadores" class="indicadores"></div>
+            </div>
+            <button class="galeria-btn" id="nextBtn">&#10095;</button>
+        </div>
+    </section>
+
+    <!-- Mapa de Sucursales -->
+    <h2>Nuestras Sucursales</h2>
+    <div id="map"></div>
+
+    <!-- Scripts del Mapa y Galería -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Mapa
+        const map = L.map('map').setView([22.17, -100.99], 12);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        const sucursales = [
+            {nombre: "Botanas Provi (Sucursal 1)", lat: 22.2131687, lng: -101.0449406},
+            {nombre: "Distribuidora Botanas Provi (Sucursal 2)", lat: 22.1559955, lng: -100.9749457},
+            {nombre: "Provi Botanas (Sucursal 3)", lat: 22.1501108, lng: -100.9916967},
+            {nombre: "Distribuidora Botanas Provi (Sucursal 4)", lat: 22.123781, lng: -100.9659669}
+        ];
+
+        sucursales.forEach(suc => {
+            L.marker([suc.lat, suc.lng])
+                .addTo(map)
+                .bindPopup(`<strong>${suc.nombre}</strong>`);
+        });
+
+        // Galería
+        const imagenes = [
+            {src: "producto1.jpg", caption: "Papas fritas Provi con sal 90 g"},
+            {src: "producto2.jpg", caption: "Papas fritas Botanas Provi Adobada 90 g"},
+            {src: "producto3.jpg", caption: "Churros verdes 120 g"},
+            {src: "producto4.jpg", caption: "Rines 80 g"},
+            {src: "producto5.jpg", caption: "Totopos 90 g"},
+            {src: "producto6.jpg", caption: "Cacahuates Salados 60 g"},
+            {src: "producto7.jpg", caption: "Cacahuates enchilados 55 g"},
+            {src: "producto8.jpg", caption: "Chicharrones de cerdo 120 g"}
+        ];
+
+        let indice = 0;
+        const galeriaImg = document.getElementById("galeria-img");
+        const galeriaCaption = document.getElementById("galeria-caption");
+        const indicadores = document.getElementById("indicadores");
+
+        imagenes.forEach((_, i) => {
+            const dot = document.createElement("span");
+            dot.classList.add("bolita");
+            dot.addEventListener("click", () => {
+                indice = i;
+                mostrarImagen(indice);
+                reiniciarIntervalo();
+            });
+            indicadores.appendChild(dot);
+        });
+
+        const bolitas = document.querySelectorAll(".bolita");
+
+        function mostrarImagen(i) {
+            galeriaImg.src = imagenes[i].src;
+            galeriaCaption.textContent = imagenes[i].caption;
+            bolitas.forEach(b => b.classList.remove("activa"));
+            bolitas[i].classList.add("activa");
+        }
+
+        document.getElementById("prevBtn").addEventListener("click", () => {
+            indice = (indice - 1 + imagenes.length) % imagenes.length;
+            mostrarImagen(indice);
+            reiniciarIntervalo();
+        });
+
+        document.getElementById("nextBtn").addEventListener("click", () => {
+            indice = (indice + 1) % imagenes.length;
+            mostrarImagen(indice);
+            reiniciarIntervalo();
+        });
+
+        let autoCambio = setInterval(() => {
+            indice = (indice + 1) % imagenes.length;
+            mostrarImagen(indice);
+        }, 5000);
+
+        function reiniciarIntervalo() {
+            clearInterval(autoCambio);
+            autoCambio = setInterval(() => {
+                indice = (indice + 1) % imagenes.length;
+                mostrarImagen(indice);
+            }, 5000);
+        }
+
+        mostrarImagen(indice);
+    </script>
+
+    <!-- Contacto -->
+    <section id="contacto">
+        <h2>Síguenos en nuestras redes sociales</h2>
+        <div class="redes-sociales">
+            <a href="https://www.facebook.com/BotanasProvi/?locale=es_LA" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/papas_provi/?hl=es" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://x.com/botanasprovi" target="_blank"><i class="fab fa-twitter"></i></a>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <h2>Preguntas Frecuentes</h2>
+      
+        <div class="faq-item">
+          <button class="faq-question">¿Dónde puedo comprar sus productos?</button>
+          <div class="faq-answer">
+            <p>Nuestros productos están disponibles en nuestras sucursales físicas en San Luis Potosí y a través de distribuidores autorizados. También puedes contactarnos directamente para pedidos especiales o para conocer puntos de venta cercanos.</p>
+          </div>
+        </div>
+      
+        <div class="faq-item">
+          <button class="faq-question">¿Ofrecen opciones para eventos o pedidos al mayoreo?</button>
+          <div class="faq-answer">
+            <p>Sí, contamos con presentaciones especiales y precios preferenciales para eventos, fiestas y pedidos al por mayor. Contáctanos con anticipación para brindarte más información y opciones disponibles.</p>
+          </div>
+        </div>
+      
+        <div class="faq-item">
+          <button class="faq-question">¿Sus botanas contienen conservadores?</button>
+          <div class="faq-answer">
+            <p>No utilizamos conservadores artificiales. Nuestras botanas se elaboran con ingredientes frescos y naturales, siguiendo recetas tradicionales que garantizan su sabor y calidad.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">¿Tienen opciones para personas con dietas especiales?</button>
+            <div class="faq-answer">
+              <p>Actualmente, ofrecemos una variedad de productos tradicionales. Estamos trabajando en desarrollar opciones que se adapten a diferentes necesidades dietéticas. Te recomendamos revisar la lista de ingredientes de cada producto y, si tienes dudas, contactarnos directamente.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">¿Cómo puedo convertirme en distribuidor de Botanas Provi?</button>
+            <div class="faq-answer">
+              <p>Si estás interesado en distribuir nuestros productos, por favor envíanos un mensaje a través de la sección de contacto en nuestra página web o comunícate directamente con nosotros. Estaremos encantados de brindarte toda la información necesaria.</p>
+            </div>
+          </div>
+      </section>
+
+    <!-- Formulario de Contratación -->
+    <section class="formulario-contratacion">
+        <h2>¡Únete a nuestro equipo!</h2>
+        <form id="formContratacion">
+            <div class="form-group">
+                <label for="nombre">Nombre completo:</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Correo electrónico:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" id="telefono" name="telefono" required>
+            </div>
+
+            <div class="form-group">
+                <label for="experiencia">Años de experiencia:</label>
+                <input type="number" id="experiencia" name="experiencia" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="puesto">Puesto solicitado:</label>
+                <select id="puesto" name="puesto" required>
+                    <option value="">Seleccione un puesto</option>
+                    <option value="Vendedor">Vendedor</option>
+                    <option value="Atencion al cliente">Atención al cliente</option>
+                    <option value="Repartidor">Repartidor</option>
+                    <option value="Gerente">Gerente</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="disponibilidad">Disponibilidad horaria:</label>
+                <select id="disponibilidad" name="disponibilidad" required>
+                    <option value="">Seleccione disponibilidad</option>
+                    <option value="Tiempo completo">Tiempo completo</option>
+                    <option value="Medio tiempo">Medio tiempo</option>
+                    <option value="Fin de semana">Fin de semana</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="motivacion">¿Por qué quieres trabajar con nosotros?</label>
+                <textarea id="motivacion" name="motivacion" rows="4" required></textarea>
+            </div>
+
+            <button type="submit" class="btn-enviar">Enviar solicitud</button>
+        </form>
+        <div id="mensaje-exito"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Botanas Provi. Todos los derechos reservados.</p>
+        <div class="footer-redes">
+            <a href="https://www.facebook.com/BotanasProvi/?locale=es_LA" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/papas_provi/?hl=es" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://x.com/botanasprovi" target="_blank"><i class="fab fa-twitter"></i></a>
+        </div>    
+        <p>Página web desarrollada para la materia de Programación Web 1</p>
+        <p>Primavera 2025. Universidad Politécnica de San Luis Potosí</p>
+    </footer>
+
+    <!-- Chatbot de Botanas Provi -->
+    <div id="landbot-root"></div>
+
+    <!-- Scripts Finales -->
+    <script>
+        // Configurar jsPDF
+        window.jsPDF = window.jspdf.jsPDF;
+
+        // Generación de PDF
+        document.getElementById('formContratacion').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!this.checkValidity()) {
+                alert("Por favor complete todos los campos requeridos");
+                return;
+            }
+
+            const formData = {
+                nombre: document.getElementById('nombre').value,
+                email: document.getElementById('email').value,
+                telefono: document.getElementById('telefono').value,
+                experiencia: document.getElementById('experiencia').value,
+                puesto: document.getElementById('puesto').value,
+                disponibilidad: document.getElementById('disponibilidad').value,
+                motivacion: document.getElementById('motivacion').value
+            };
+
+            try {
+                const doc = new jsPDF();
+                let y = 20;
+                const lineHeight = 10;
+                const pageHeight = 280;
+
+                // Encabezado
+                doc.setFontSize(18);
+                doc.text("Solicitud de Empleo - Botanas Provi", 20, y);
+                y += 15;
+
+                // Contenido
+                doc.setFontSize(12);
+                const contenido = [
+                    `Nombre: ${formData.nombre}`,
+                    `Email: ${formData.email}`,
+                    `Teléfono: ${formData.telefono}`,
+                    `Experiencia: ${formData.experiencia} años`,
+                    `Puesto solicitado: ${formData.puesto}`,
+                    `Disponibilidad: ${formData.disponibilidad}`,
+                    "Motivación:",
+                    ...doc.splitTextToSize(formData.motivacion, 170)
+                ];
+
+                contenido.forEach(line => {
+                    if (y > pageHeight) {
+                        doc.addPage();
+                        y = 20;
+                    }
+                    doc.text(20, y, line);
+                    y += lineHeight;
+                });
+
+                // Descargar PDF
+                const nombreArchivo = `Solicitud_${formData.nombre.replace(/ /g, '_')}.pdf`;
+                doc.save(nombreArchivo);
+
+                // Mensaje de éxito
+                document.getElementById('mensaje-exito').style.display = 'block';
+                document.getElementById('mensaje-exito').innerHTML = `
+                    <p>¡Solicitud enviada con éxito!</p>
+                    <p>El PDF se ha generado correctamente.</p>
+                `;
+
+                // Resetear formulario
+                this.reset();
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error al generar el PDF: ' + error.message);
+            }
+        });
+
+        // FAQ
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const answer = q.nextElementSibling;
+                answer.style.maxHeight = answer.style.maxHeight ? null : answer.scrollHeight + "px";
+            });
+        });
+
+        // Configuración del Chatbot
+        window.addEventListener('DOMContentLoaded', function() {
+            Landbot.init({
+                config: {
+                    key: 'TU_KEY_DE_LANDBOT_AQUÍ',
+                    root: 'landbot-root',
+                    server: 'https://chats.landbot.io',
+                    version: '3',
+                    theme: {
+                        primaryColor: '#4CAF50',
+                        secondaryColor: '#45a049',
+                        header: {
+                            logo: 'URL_DE_TU_LOGO',
+                            title: '¡Hola! Soy ProviBot 🥔'
+                        }
+                    }
+                }
+            }).then(function(landbot) {
+                landbot.on('ready', function() {
+                    landbot.sendProactiveMessage({
+                        message: '¡Hola! 👋 ¿En qué puedo ayudarte hoy? 😊\n\n1. Hacer un pedido\n2. Conocer nuestros productos\n3. Información de mayoreo\n4. Preguntas frecuentes',
+                        delay: 1000
+                    });
+                });
+            });
+        });
+    </script>
+    <script src="https://static.landbot.io/landbot-3/landbot-3.0.0.js"></script>
+</body>
+</html>
