@@ -5,6 +5,12 @@ body {
     padding: 0;
     box-sizing: border-box;
     text-align: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+main {
+    flex: 1;
 }
 .navbar {
     display: flex;
